@@ -1,0 +1,42 @@
+Input: root = [5,3,6,2,4,null,7], key = 3
+Output: [5,4,6,2,null,null,7]
+Explanation: Given key to delete is 3. So we find the node with value 3 and delete it.
+One valid answer is [5,4,6,2,null,null,7], shown in the above BST.
+Please notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.
+CODE:
+
+TreeNode* predecessor(TreeNode* root){
+        while(root->right!=NULL){
+            root=root->right;
+        }
+        return root;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+       if(root==NULL) return NULL;
+        if(root->val==key){
+            if(root->left==NULL && root->right==NULL) return NULL;
+            else if(root->left!=NULL  && root->right==NULL){
+               TreeNode* child=root->left;
+               delete root;
+               return child;
+             }
+            else if(root->left==NULL  && root->right!=NULL){
+               TreeNode* child=root->right;
+               delete root;
+               return child;
+             }
+           else{
+                TreeNode* pred= predecessor(root->left);
+                root->val=pred->val;
+                root->left=deleteNode(root->left,pred->val);
+                return root;
+            }
+        }
+        if(root->val<key){
+            root->right=deleteNode(root->right,key);
+        }
+        else if(root->val>key){
+            root->left=deleteNode(root->left,key);
+        }
+        return root;
+    }
