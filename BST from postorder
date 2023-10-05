@@ -1,0 +1,25 @@
+Input:
+6
+1 7 5 50 40 10
+
+Output:
+1 5 7 10 40 50
+CODE:
+
+Node* solve(int &i,int min, int max,int post[],int size){
+   if(i<0) return NULL;
+   Node* root=NULL;
+   if(post[i]<=min || post[i]>=max) return NULL;
+   if(post[i]<max && post[i]>min){
+       root=new Node(post[i--]);
+       root->right=solve(i,root->data,max,post,size);
+       root->left=solve(i,min,root->data,post,size);
+   }
+   return root;
+}
+Node *constructTree (int post[], int size)
+{
+   int min=INT_MIN,max=INT_MAX;
+   int i=size-1;
+   return solve(i,min,max,post,size);
+}
