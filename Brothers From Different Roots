@@ -1,3 +1,25 @@
+Input:
+BST1:
+       5
+     /   \
+    3     7
+   / \   / \
+  2   4 6   8
+
+BST2:
+       10
+     /    \
+    6      15
+   / \    /  \
+  3   8  11   18
+
+x = 16
+Output:
+3
+Explanation:
+The pairs are: (5, 11), (6, 10) and (8, 8)
+CODE:
+
 int countPairs(Node* root1, Node* root2, int x)
     { 
       if(!root1 && !root2)
@@ -43,4 +65,43 @@ int countPairs(Node* root1, Node* root2, int x)
       }
       return ans;
       
+    }
+
+!-----------------OR------------------!
+  void find(Node* root, int x, int &ans){
+        
+        if(root==NULL)
+            return;
+        
+        if(root->data == x){
+            ans++;
+            return;
+        }
+        if(root->data > x)
+            find(root->left, x, ans);
+        else
+            find(root->right, x, ans);
+        
+    }
+
+    void solve(Node* root1, Node* root2, int x, int &ans){
+        
+        if(root1==NULL)
+            return;
+        
+        solve(root1->left, root2, x, ans);
+        find(root2, x-root1->data, ans);
+        solve(root1->right, root2, x, ans);
+        
+    }
+
+
+    int countPairs(Node* root1, Node* root2, int x){
+        
+        int ans = 0;
+        solve(root1, root2, x, ans);
+        return ans;
+        
+        
+        
     }
