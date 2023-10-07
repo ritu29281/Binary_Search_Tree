@@ -27,3 +27,34 @@ TreeNode* isParent(TreeNode* root, int x){
             return true;
         return false;
     }
+!-----------------------OR------------------------!
+  int xdepth, ydepth, xparent, yparent;
+    // depth of x and y and parent of x and y.
+    void depth(TreeNode* root, int x, int y, int dep, int par_val){
+    if(root==NULL) return;
+    
+    if(root->val==x){
+        xdepth=dep;
+        xparent=par_val;
+        return;
+    }
+    if(root->val==y){
+        ydepth=dep;
+        yparent=par_val;
+        return;
+    }
+    depth(root->left, x, y, dep+1, root->val);
+    depth(root->right, x, y, dep+1, root->val);
+}
+bool isCousins(TreeNode* root, int x, int y) {
+    // simple if you have the same value as parent then you will nver be cousinn how can a parent be cousin of the child :(
+    if(root->val==x || root->val==y) return false;
+
+    // check for the root with level zero and first parent val zero.
+    depth(root, x, y, 0, 0);
+    
+    //if they have the same level and they dont have the same parent that means they are the cousins. 
+    if(xdepth==ydepth && xparent!=yparent) return true;
+    //otherwise false.
+    return false;
+}
