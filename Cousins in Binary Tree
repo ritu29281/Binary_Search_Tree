@@ -1,0 +1,29 @@
+Two nodes of a binary tree are cousins if they have the same depth with different parents.
+Input: root = [1,2,3,4], x = 4, y = 3
+Output: false
+CODE:
+
+TreeNode* isParent(TreeNode* root, int x){
+        if(root==NULL) return NULL;
+        if(root->val==x) return NULL;
+        if(root->left!=NULL && root->left->val==x) return root;
+         if(root->right!=NULL && root->right->val==x) return root;
+         if(isParent(root->left,x)!=NULL) return isParent(root->left,x);
+        else{
+            return isParent(root->right,x);
+        }
+       
+    }
+    int depth(TreeNode* root,int x){
+     if(root==NULL)return 1000;
+     if(root->val==x)return 0;
+     int left=depth(root->left,x);
+     int right=depth(root->right,x);
+     int d=min(left,right)+1;
+     return d;
+    }
+    bool isCousins(TreeNode* root, int x, int y) {
+        if(depth(root,x)==depth(root,y) && isParent(root,x)!= isParent(root,y))
+            return true;
+        return false;
+    }
