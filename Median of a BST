@@ -1,0 +1,81 @@
+int Ncount(Node* root) {
+    int count=0;
+       Node* curr=root;
+        while(curr){
+            //first check left is null or not if null then save current and go right
+            if(curr->left==NULL){
+                count++;
+                curr=curr->right;
+            }
+            else{
+                //find predecessor 
+                Node* pred=curr->left;
+                while(pred->right && pred->right!=curr){
+                    pred=pred->right;
+                }
+                //predecessor has right NULL then points the right to current so we can go back without recursion
+                if(pred->right==NULL){
+                    pred->right=curr;
+                    curr=curr->left;
+                }
+                else{
+                    //if pred has not right NULL it means its right already visited and points to upper value, then make it's right points again on NULL and save curr value
+                    pred->right=NULL;
+                    count++;
+                    curr=curr->right;
+                }
+            }
+            
+        }
+      
+      return count;
+    }
+float Median(Node* root,int n) {
+     int i=0;
+     int odd1=(n+1)/2,odd1val=-1;
+     int even1=n/2,even1val=-1;
+     int even2=(n/2)+1,even2val=-1;
+       Node* curr=root;
+        while(curr){
+            //first check left is null or not if null then save current and go right
+            if(curr->left==NULL){
+                i++;
+                if(i==odd1) odd1val=curr->data;
+                if(i==even1) even1val=curr->data;
+                if(i==even2) even2val=curr->data;
+                curr=curr->right;
+            }
+            else{
+                //find predecessor 
+                Node* pred=curr->left;
+                while(pred->right && pred->right!=curr){
+                    pred=pred->right;
+                }
+                //predecessor has right NULL then points the right to current so we can go back without recursion
+                if(pred->right==NULL){
+                    pred->right=curr;
+                    curr=curr->left;
+                }
+                else{
+                    //if pred has not right NULL it means its right already visited and points to upper value, then make it's right points again on NULL and save curr value
+                    pred->right=NULL;
+                      i++;
+                      if(i==odd1) odd1val=curr->data;
+                      if(i==even1) even1val=curr->data;
+                      if(i==even2) even2val=curr->data;
+                    curr=curr->right;
+                }
+            }
+            
+        }
+        float median=0.0;
+        if(n%2==0) median= (even1val+even2val)/2.0;
+        else
+         median=odd1val;
+         return median;
+    }   
+float findMedian(struct Node *root)
+{
+      int n=Ncount(root);
+      return Median(root,n);
+}
