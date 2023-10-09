@@ -1,0 +1,38 @@
+Input :   
+               8
+             /   \ 
+           5      9
+         /  \     
+        2    7 
+       /
+      1     
+          
+Output : 
+Yes
+Explanation : 
+Node "1" is the dead End because after that 
+              we cant insert any element.
+CODE:
+
+void solve(Node* root, unordered_map<int,bool>vis,bool &ans){
+    if(root==NULL) return;
+    vis[root->data]=1;
+    if(root->left==NULL && root->right==NULL){
+        int plus1= root->data+1;
+        int minus1=root->data-1==0?root->data:root->data-1;
+        if(vis.find(plus1)!=vis.end() && vis.find(minus1)!=vis.end()){
+            ans=true;
+            return;
+        }
+    }
+    solve(root->left,vis,ans);
+    solve(root->right,vis,ans);
+}
+/*You are required to complete below method */
+bool isDeadEnd(Node *root)
+{
+    bool ans=false;
+    unordered_map<int,bool>vis;
+    solve(root,vis,ans);
+    return ans;
+}
