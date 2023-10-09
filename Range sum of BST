@@ -1,0 +1,24 @@
+Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+Output: 32
+Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+CODE:
+
+int rangeSumBST(TreeNode* root, int low, int high) {
+       if(root==NULL) return 0;
+        int ans=0;
+        bool inrange=false;
+        if(root->val>=low && root->val<=high){
+            inrange=true;
+            ans=ans+root->val;
+        }
+        if(inrange==true){
+            ans=ans+rangeSumBST(root->left,low,high)+rangeSumBST(root->right,low,high);
+        }
+        else if(root->val<low){
+            ans=ans+rangeSumBST(root->right,low,high);
+        }
+        else{
+             ans=ans+rangeSumBST(root->left,low,high);
+        }
+        return ans;
+    }
