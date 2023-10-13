@@ -16,6 +16,34 @@ The converted BST will be
  1
 CODE:
 
+ Node* solve(vector<int>nums){
+         if(nums.size()==0) return NULL;
+        if(nums.size()==1) return new Node(nums[0]) ;
+        int middle=nums.size()/2;
+        Node* root= new Node(nums[middle]);
+        vector<int>left(nums.begin(),nums.begin()+middle);
+        vector<int>right(nums.begin()+middle+1,nums.end());
+        root->left=solve(left);
+        root->right=solve(right);
+        return root;
+    }
+    void inorder(Node* root,vector<int>&m){
+        if(root==NULL) return;
+        inorder(root->left,m);
+        m.push_back(root->data);
+        inorder(root->right,m);
+        return;
+    }
+    Node *binaryTreeToBST (Node *root)
+    {
+        vector<int>m;
+        inorder(root,m);
+        sort(m.begin(),m.end());
+        int index=0;
+        return solve(m);      
+    }
+!-------------------------OR----------------------------!
+
 void solve(Node* &root, vector<int>&q,int size,int &index){
         if(root==NULL)return ;
         if(index>=size)return;
