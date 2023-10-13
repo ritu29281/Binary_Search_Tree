@@ -1,0 +1,55 @@
+You are given a BST(Binary Search Tree) with n number of nodes and value x.
+your task is to find the greatest value node of the BST which is smaller than or equal to x.
+Note: when x is smaller than the smallest node of BST then returns -1.
+Input:
+n = 4                     6
+                           \
+                            8
+                          /   \
+                        7       9
+x = 11
+Output:
+9
+CODE:
+
+
+void inorder(Node* root,vector<int>&m){
+    if(root==NULL) return;
+    inorder(root->left,m);
+    m.push_back(root->data);
+    inorder(root->right,m);
+}
+    int floor(Node* root, int x) {
+        vector<int>v;
+        int ans=0;
+        inorder(root,v);
+         if(v[0]>x){
+            return -1;
+        }
+         if(v[v.size()-1]<x){
+            return v[v.size()-1];
+        }
+        else{
+             int i=0;
+        int e=v.size()-1;
+        int mid=i+(e-i)/2;
+        while(i<=e){
+            if(v[mid]==x){
+                ans=v[mid];
+                break;
+            }
+            if( x<v[mid+1] && x>v[mid]){
+                ans=v[mid];
+                break;
+            }
+            if(x<v[mid]){
+                e=mid-1;
+            }
+            else{
+                i=mid+1;
+            }
+            mid=i+(e-i)/2;
+        }
+        }
+        return ans;
+}
