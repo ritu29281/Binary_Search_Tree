@@ -1,0 +1,41 @@
+Input:
+          1
+       /    \
+     2       3
+   /        
+ 4       
+Output: 
+1 2 3 4
+Explanation:
+The converted BST will be
+
+        3
+      /   \
+    2     4
+  /
+ 1
+CODE:
+
+void solve(Node* &root, vector<int>&q,int size,int &index){
+        if(root==NULL)return ;
+        if(index>=size)return;
+       solve(root->left,q,q.size(),index);
+        root->data=q[index++];
+        solve(root->right,q,q.size(),index);
+    }
+    void inorder(Node* root,vector<int>&m){
+        if(root==NULL) return;
+        inorder(root->left,m);
+        m.push_back(root->data);
+        inorder(root->right,m);
+        return;
+    }
+    Node *binaryTreeToBST (Node *root)
+    {
+        vector<int>m;
+        inorder(root,m);
+        sort(m.begin(),m.end());
+        int index=0;
+        solve(root,m,m.size()-1,index);
+        return root;
+    }
