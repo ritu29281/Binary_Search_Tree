@@ -1,0 +1,52 @@
+GFG
+Input:
+BST1:
+       5
+     /   \
+    3     6
+   / \
+  2   4  
+BST2:
+        2
+      /   \
+     1     3
+            \
+             7
+            /
+           6
+Output: 1 2 2 3 3 4 5 6 6 7
+Explanation: 
+After merging and sorting the
+two BST we get 1 2 2 3 3 4 5 6 6 7.
+CODE:
+
+  vector<int> merge(Node *root1, Node *root2)
+    {
+      Node* a=root1;
+      Node* b=root2;
+      vector<int>ans;
+      stack<Node*>sa,sb;
+      while(a||b|| !sa.empty() ||!sb.empty()){
+          while(a){
+              sa.push(a);
+              a=a->left;
+          }
+          while(b){
+              sb.push(b);
+              b=b->left;
+          }
+          if(sb.empty() || (!sa.empty() && sa.top()->data<=sb.top()->data)){
+              auto atop=sa.top();
+              ans.push_back(atop->data);
+              sa.pop();
+              a=atop->right;
+          }
+          else{
+               auto btop=sb.top();
+              ans.push_back(btop->data);
+              sb.pop();
+              b=btop->right;
+          }
+      }
+      return ans;
+    }
