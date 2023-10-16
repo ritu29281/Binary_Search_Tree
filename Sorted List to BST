@@ -1,0 +1,22 @@
+Input: head = [-10,-3,0,5,9]
+Output: [0,-3,9,-10,null,5]
+Explanation: One possible answer is [0,-3,9,-10,null,5], which represents the shown height balanced BST.
+CODE:
+
+TreeNode* solve(int start,int end,vector<int>&node){
+        if(start>end)return NULL;
+        int mid=(start+end)/2;
+        TreeNode* root=new TreeNode(node[mid]);
+        root->left=solve(start,mid-1,node);
+        root->right=solve(mid+1,end,node);
+        return root;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+      vector<int>node;
+        while(head){
+            node.push_back(head->val);
+            head=head->next;
+        }
+        int start=0,end=node.size()-1;
+       return solve(start,end,node);
+    }
